@@ -17,7 +17,7 @@ use Mage\Task\AbstractTask;
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
  */
-class AsseticDumpTask extends AbstractTask
+class PrepareConfigTask extends AbstractTask
 {
 	/**
 	 * (non-PHPdoc)
@@ -25,7 +25,7 @@ class AsseticDumpTask extends AbstractTask
 	 */
     public function getName()
     {
-        return 'Symfony v2 - Assetic Dump [built-in]';
+        return 'Symfony v2 - Prepare Config [built-in]';
     }
 
     /**
@@ -34,11 +34,13 @@ class AsseticDumpTask extends AbstractTask
      */
     public function run()
     {
-    	// Options
-    	$env = $this->getParameter('env', 'dev');
+        $env = $this->getParameter('type', '');
 
-        $command = 'php app/console assetic:dump --env=' . $env;
-        $result = $this->runCommand($command);
+        $command = 'rm app/config/parameters.php';
+        $result = $this->runCommandRemote($command);
+
+        $command = 'mv app/config/parameters.'.$env.'.php app/config/parameters.php';
+        $result = $this->runCommandRemote($command);
 
         return $result;
     }

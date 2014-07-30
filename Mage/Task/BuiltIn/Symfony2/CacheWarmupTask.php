@@ -37,7 +37,7 @@ class CacheWarmupTask extends AbstractTask
     	// Options
     	$env = $this->getParameter('env', 'dev');
 
-        $command = 'app/console cache:warmup --env=' . $env;
+        $command = 'php app/console cache:warmup --env=' . $env;
         $result = $this->runCommand($command);
 
         return $result;

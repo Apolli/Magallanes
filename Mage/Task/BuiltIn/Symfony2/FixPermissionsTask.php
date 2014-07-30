@@ -13,11 +13,11 @@ namespace Mage\Task\BuiltIn\Symfony2;
 use Mage\Task\AbstractTask;
 
 /**
- * Task for Installing Assets
+ * Task for Dumping Assetics
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
  */
-class AssetsInstallTask extends AbstractTask
+class FixPermissionsTask extends AbstractTask
 {
 	/**
 	 * (non-PHPdoc)
@@ -25,26 +25,16 @@ class AssetsInstallTask extends AbstractTask
 	 */
     public function getName()
     {
-        return 'Symfony v2 - Assets Install [built-in]';
+        return 'Symfony v2 - Fix Permissions [built-in]';
     }
 
     /**
-     * Installs Assets
+     * Dumps Assetics
      * @see \Mage\Task\AbstractTask::run()
      */
     public function run()
     {
-    	// Options
-    	$target = $this->getParameter('target', 'web');
-    	$symlink = $this->getParameter('symlink', false);
-    	$relative = $this->getParameter('relative', false);
-    	$env = $this->getParameter('env', 'dev');
-
-    	if ($relative) {
-    		$symlink = true;
-    	}
-
-        $command = 'php php app/console assets:install ' . ($symlink ? '--symlink' : '') .  ' ' . ($relative ? '--relative' : '') .  ' --env=' . $env . ' ' . $target;
+        $command = 'chmod -R 777 app/cache app/logs';
         $result = $this->runCommand($command);
 
         return $result;

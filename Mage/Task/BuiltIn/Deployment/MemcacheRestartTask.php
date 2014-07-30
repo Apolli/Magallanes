@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the Magallanes package.
+* This file is part of the Magallanes package.
 *
 * (c) Andrés Montañez <andres@andresmontanez.com>
 *
@@ -8,16 +8,18 @@
 * file that was distributed with this source code.
 */
 
-namespace Mage\Task\BuiltIn\Symfony2;
+namespace Mage\Task\BuiltIn\Deployment;
 
 use Mage\Task\AbstractTask;
+use Mage\Task\Releases\IsReleaseAware;
+use Mage\Task\Releases\SkipOnOverride;
 
 /**
- * Task for Dumping Assetics
+ * Task for Releasing a Deploy
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
  */
-class AsseticDumpTask extends AbstractTask
+class MemcacheRestartTask extends AbstractTask
 {
 	/**
 	 * (non-PHPdoc)
@@ -25,21 +27,19 @@ class AsseticDumpTask extends AbstractTask
 	 */
     public function getName()
     {
-        return 'Symfony v2 - Assetic Dump [built-in]';
+        return 'Memcache Restart [built-in]';
     }
 
     /**
-     * Dumps Assetics
+     * Releases a Deployment: points the current symbolic link to the release directory
      * @see \Mage\Task\AbstractTask::run()
      */
     public function run()
     {
-    	// Options
-    	$env = $this->getParameter('env', 'dev');
-
-        $command = 'php app/console assetic:dump --env=' . $env;
-        $result = $this->runCommand($command);
+        $command = 'sudo /etc/init.d/memcached restart';
+        $result = $this->runCommandRemote($command);
 
         return $result;
     }
+
 }
