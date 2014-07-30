@@ -8,7 +8,7 @@
 * file that was distributed with this source code.
 */
 
-namespace Mage\Task\BuiltIn\Symfony2;
+namespace Mage\Task\BuiltIn\Deployment;
 
 use Mage\Task\AbstractTask;
 
