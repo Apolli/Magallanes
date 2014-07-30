@@ -26,6 +26,14 @@ class GitTagTask extends AbstractTask
 	 */
     private $name = 'SCM Tag [built-in]';
 
+    /**
+     * (non-PHPdoc)
+     * @see \Mage\Task\AbstractTask::getName()
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
     /**
      * (non-PHPdoc)
@@ -78,12 +86,12 @@ class GitTagTask extends AbstractTask
                         $tagParts = explode(':', $tag);
                         $tagName = array_pop($tagParts);
 
-                        //$command .= "git push origin :".trim($tagName).";";
+                        $command .= "git push origin :".trim($tagName).";";
                     }
 
                     $command .= "git push --tags;";
                     if($command) {
-                        exec($command);
+                        $result = $this->runCommandLocal($command);
                     }
 
                     echo "\nAdd new Tag";
@@ -92,11 +100,8 @@ class GitTagTask extends AbstractTask
                     exec('git rev-parse HEAD', $currentRevision);
 
                     // create new tag
-                    exec("git tag -am \"auto-tag-$nextId\" auto-tag-$nextId $currentRevision[0]; git push origin auto-tag-$nextId;");
-
+                    $result = $this->runCommandLocal("git tag -am \"auto-tag-$nextId\" auto-tag-$nextId $currentRevision[0]; git push origin auto-tag-$nextId;");
                 }
-
-                return true;
                 break;
 
             default:

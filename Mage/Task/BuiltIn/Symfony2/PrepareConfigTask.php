@@ -34,12 +34,10 @@ class PrepareConfigTask extends AbstractTask
      */
     public function run()
     {
-        $env = $this->getParameter('type', '');
-
         $command = 'rm app/config/parameters.php';
         $result = $this->runCommandRemote($command);
 
-        $command = 'mv app/config/parameters.'.$env.'.php app/config/parameters.php';
+        $command = 'mv app/config/parameters.'.$this->getConfig()->getEnvironment().'.php app/config/parameters.php';
         $result = $this->runCommandRemote($command);
 
         return $result;

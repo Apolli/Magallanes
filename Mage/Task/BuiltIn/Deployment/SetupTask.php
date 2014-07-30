@@ -38,16 +38,16 @@ class SetupTask extends AbstractTask
     {
         $from = $this->getConfig()->deployment('from');
 
-        exec('git config --global credential.helper cache');
-        exec("git config --global credential.helper 'cache --timeout=300'");
-
+        $this->runCommand("git config --global credential.helper cache");
+        $this->runCommand("git config --global credential.helper 'cache --timeout=300'");
+        
         if($from != './') {
             $command = 'rm  -R '.$from.'; '.
                        'mkdir -p '.$from.'; '.
                        'cd ' . $from . '; '.
                        'git clone '.$this->getParameter('repository').' .; '.
-                       'git checkout '.$this->getParameter('branch', 'master').'; ';
-                       //'php composer.phar install -o;';
+                       'git checkout '.$this->getParameter('branch', 'master').'; '.
+                       'php composer.phar update -o; ';
 
             $result = $this->runCommand($command);
         }
